@@ -6,7 +6,7 @@ const inputPassword = document.querySelector(".password")
 
 function register () {
 
-    fetch("http://localhost:8080/register",
+    fetch("http://localhost:8080/api/users/v1",
         {
             headers: {
                 'Accept': 'application/json',

@@ -11,10 +11,10 @@ public class UserModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 200, nullable = false)
+    @Column(name = "name", length = 200, nullable = false, unique = true)
     private String name;
 
-    @Column(name = "email", length = 50, nullable = false)
+    @Column(name = "email", length = 50, nullable = false, unique = true)
     private String email;
 
     @Column(name = "cellphone", length = 20, nullable = false)

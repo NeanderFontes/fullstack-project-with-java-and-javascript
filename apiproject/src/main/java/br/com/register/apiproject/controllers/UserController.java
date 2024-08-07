@@ -4,20 +4,18 @@ import br.com.register.apiproject.models.UserModel;
 import br.com.register.apiproject.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value = "/api/users/v1")
 public class UserController {
     @Autowired
-     UserService service;
+    UserService service;
 
     //findById
     @GetMapping(value = "{id}",
@@ -56,9 +54,9 @@ public class UserController {
 
     //Test Login
     @PostMapping(value = "/test-login",
-                consumes = MediaType.APPLICATION_JSON_VALUE,
-                produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserModel> testLogin (@RequestBody UserModel userModelValidaPassword) {
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserModel> testLogin(@RequestBody UserModel userModelValidaPassword) {
         Boolean validPassword = service.validateUser(userModelValidaPassword);
         if (!validPassword) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

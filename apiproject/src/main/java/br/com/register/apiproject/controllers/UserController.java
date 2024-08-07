@@ -1,6 +1,8 @@
 package br.com.register.apiproject.controllers;
 
+import br.com.register.apiproject.dtos.UserDTO;
 import br.com.register.apiproject.models.UserModel;
+import br.com.register.apiproject.security.Token;
 import br.com.register.apiproject.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,14 +55,14 @@ public class UserController {
     }
 
     //Test Login
-    @PostMapping(value = "/test-login",
+    @PostMapping(value = "/login",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserModel> testLogin(@RequestBody UserModel userModelValidaPassword) {
-        Boolean validPassword = service.validateUser(userModelValidaPassword);
-        if (!validPassword) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<Token> validPassword(@RequestBody UserDTO userModelValidaPassword) {
+        Token token = service.generationToken(userModelValidaPassword);
+        if (token != null) {
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 }

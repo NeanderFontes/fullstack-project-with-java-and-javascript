@@ -1,7 +1,10 @@
 package br.com.register.apiproject.services;
 
+import br.com.register.apiproject.dtos.UserDTO;
 import br.com.register.apiproject.models.UserModel;
 import br.com.register.apiproject.repositories.UserRepository;
+import br.com.register.apiproject.security.Token;
+import br.com.register.apiproject.security.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,5 +63,16 @@ public class UserService {
         String password = repository.findById(userModelValidaPassword.getId()).get().getPassword();
         Boolean validate = passwordEncoder.matches(userModelValidaPassword.getPassword(), password);
         return validate;
+    }
+
+    public Token generationToken(UserDTO validateUserDto) {
+        UserModel entityUserModel = repository.findByNameOrEmail(validateUserDto.getName(), validateUserDto.getEmail());
+        if (entityUserModel != null) {
+            Boolean valid = passwordEncoder.matches(validateUserDto.getPassword(), entityUserModel.getPassword());
+            if (valid) {
+                return new Token(TokenUtil.createToken(entityUserModel));
+            }
+        }
+        return null;
     }
 }
